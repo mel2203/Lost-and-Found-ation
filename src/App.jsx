@@ -1,12 +1,15 @@
-import items from './data.js'
-import ItemCard from './ItemCard.jsx'
+import items from "./data.js";
+import ItemCard from "./ItemCard.jsx";
+import { useState } from "react";
 
 function App() {
-
+  const [query, setQuery] = useState("");
   return (
     <div className="site">
       <header className="site-header">
-        <div className="brand-mark" aria-hidden="true">L&amp;F</div>
+        <div className="brand-mark" aria-hidden="true">
+          L&amp;F
+        </div>
         <span>Campus property desk</span>
         <span className="header-note">Found in the foundation.</span>
       </header>
@@ -14,9 +17,18 @@ function App() {
       <main>
         <section className="intro">
           <p className="intro-label">Campus recovery log</p>
-          <h1>Lost <span>&amp;</span><br />Found-ation<span className="period">.</span></h1>
-          <p className="intro-copy">A record of items found around campus. Check the place and date to see if something is yours.</p>
-          <div className="intro-rule" aria-hidden="true"><span>↘</span></div>
+          <h1>
+            Lost <span>&amp;</span>
+            <br />
+            Found-ation<span className="period">.</span>
+          </h1>
+          <p className="intro-copy">
+            A record of items found around campus. Check the place and date to
+            see if something is yours.
+          </p>
+          <div className="intro-rule" aria-hidden="true">
+            <span>↘</span>
+          </div>
         </section>
 
         <section className="records" aria-labelledby="records-title">
@@ -27,7 +39,16 @@ function App() {
             </div>
             <span className="records-badge">LF / 26</span>
           </div>
-          <div className="toolbar"></div>
+          <div className="toolbar">
+            <input
+              type="search"
+              aria-label="Search items"
+              placeholder="Search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+            />
+          </div>
+
           <div className="list-head" aria-hidden="true">
             <span>No.</span>
             <span>Item / place</span>
@@ -36,13 +57,19 @@ function App() {
           </div>
 
           <div className="item-list">
-            {items.map((item) => <ItemCard key={item.id} item={item} />)}
+            {items
+              .filter((item) => item.name.includes(query))
+              .map((item) => (
+                <ItemCard key={item.id} item={item} />
+              ))}
           </div>
         </section>
       </main>
-      <footer>Lost &amp; Found-ation <span>Campus property desk</span></footer>
+      <footer>
+        Lost &amp; Found-ation <span>Campus property desk</span>
+      </footer>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
